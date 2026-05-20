@@ -49,9 +49,16 @@
   .sidebar-logo {
     display: flex;
     align-items: center;
+    justify-content: space-between; /* Menjaga posisi logo dan tombol di HP */
     gap: 12px;
     padding: 28px 24px 24px;
     border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .logo-flex {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
   .logo-icon {
@@ -148,6 +155,19 @@
   }
 
   .logout-btn:hover { background: rgba(255,60,60,0.15); border-color: rgba(255,80,80,0.3); color: #ff7070; }
+  
+  /* Tombol khusus mobile (sembunyi di laptop) */
+  .logout-mobile-btn {
+    display: none;
+    padding: 6px 12px;
+    background: rgba(255,60,60,0.2);
+    border: 1px solid rgba(255,80,80,0.4);
+    border-radius: 6px;
+    color: #ff8585;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
 
   /* ── MAIN ── */
   main {
@@ -373,7 +393,7 @@
     100% { background-position: 200% 0%; }
   }
 
-  /* ── CSS RESPONSIF KUSTOM UNTUK LAYAR MOBILE HP (BARIS TERBARU) ── */
+  /* ── CSS RESPONSIF KUSTOM UNTUK LAYAR MOBILE HP ── */
   @media (max-width: 768px) {
     body {
       flex-direction: column; 
@@ -388,6 +408,10 @@
     .sidebar-logo {
       padding: 16px 20px 10px;
       border-bottom: none;
+    }
+
+    .logout-mobile-btn {
+      display: block; /* Munculkan tombol logout di atas khusus HP */
     }
 
     nav {
@@ -405,7 +429,7 @@
     }
 
     .sidebar-footer {
-      display: none; 
+      display: none; /* Sembunyikan footer lama di layar HP */
     }
 
     main {
@@ -444,8 +468,11 @@
 
 <aside>
   <div class="sidebar-logo">
-    <div class="logo-icon">🗑️</div>
-    <span>BMS PRO</span>
+    <div class="logo-flex">
+      <div class="logo-icon">🗑️</div>
+      <span>BMS PRO</span>
+    </div>
+    <button class="logout-mobile-btn" onclick="window.location.href='loginin.html'">Logout</button>
   </div>
 
   <nav>
@@ -749,23 +776,20 @@
   }
 
   setInterval(mulaiSimulasiBakSampah, 5000);
-  // Mengambil email yang diketik dari halaman login tadi
-const emailTerlogin = localStorage.getItem('userEmail');
 
-if (emailTerlogin) {
-  // Cari komponen teks email di sidebar footer, lalu ganti isinya
-  const userEmailElement = document.querySelector('.user-email');
-  if (userEmailElement) {
-    userEmailElement.innerText = emailTerlogin;
+  // Ambil email yang login kustom
+  const emailTerlogin = localStorage.getItem('userEmail');
+  if (emailTerlogin) {
+    const userEmailElement = document.querySelector('.user-email');
+    if (userEmailElement) {
+      userEmailElement.innerText = emailTerlogin;
+    }
+    const userPrivilegeElement = document.querySelector('.user-name');
+    if (userPrivilegeElement) {
+      const namaDepan = emailTerlogin.split('@')[0];
+      userPrivilegeElement.innerText = "Admin " + namaDepan;
+    }
   }
-  
-  // Opsional: Mengubah teks nama admin mengambil kata depan sebelum tanda @
-  const userPrivilegeElement = document.querySelector('.user-name');
-  if (userPrivilegeElement) {
-    const namaDepan = emailTerlogin.split('@')[0];
-    userPrivilegeElement.innerText = "Admin " + namaDepan;
-  }
-}
 </script>
 </body>
 </html>
