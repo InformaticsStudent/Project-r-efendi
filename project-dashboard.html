@@ -373,16 +373,75 @@
     100% { background-position: 200% 0%; }
   }
 
-  /* Responsive */
-  @media (max-width: 900px) {
-    .stats-row { grid-template-columns: 1fr 1fr; }
-    main { padding: 24px 20px; }
+  /* ── CSS RESPONSIF KUSTOM UNTUK LAYAR MOBILE HP (BARIS TERBARU) ── */
+  @media (max-width: 768px) {
+    body {
+      flex-direction: column; 
+    }
+
+    aside {
+      width: 100%; 
+      min-height: auto;
+      padding-bottom: 10px;
+    }
+
+    .sidebar-logo {
+      padding: 16px 20px 10px;
+      border-bottom: none;
+    }
+
+    nav {
+      flex-direction: row; 
+      overflow-x: auto; 
+      white-space: nowrap;
+      padding: 0 14px 10px;
+      gap: 8px;
+    }
+
+    nav a {
+      padding: 8px 14px;
+      font-size: 13px;
+      display: inline-flex;
+    }
+
+    .sidebar-footer {
+      display: none; 
+    }
+
+    main {
+      padding: 20px 16px; 
+    }
+
+    .stats-row {
+      grid-template-columns: 1fr; 
+      gap: 16px;
+    }
+
+    .stat-card {
+      padding: 16px 20px;
+    }
+
+    .page-header h1 {
+      font-size: 24px;
+    }
+
+    .section-header {
+      padding: 16px 16px 0;
+    }
+
+    .tab-bar {
+      overflow-x: auto; 
+      white-space: nowrap;
+    }
+
+    .table-wrap {
+      padding: 0 16px 16px;
+    }
   }
 </style>
 </head>
 <body>
 
-<!-- ── SIDEBAR ── -->
 <aside>
   <div class="sidebar-logo">
     <div class="logo-icon">🗑️</div>
@@ -420,7 +479,6 @@
   </div>
 </aside>
 
-<!-- ── MAIN ── -->
 <main>
   <div class="wave-accent" style="margin: -36px -40px 32px; width: calc(100% + 80px);"></div>
 
@@ -429,7 +487,6 @@
     <p>Welcome back, Admin BMS <span>🌊</span></p>
   </div>
 
-  <!-- Stat Cards -->
   <div class="stats-row">
     <div class="stat-card">
       <div>
@@ -457,7 +514,6 @@
     </div>
   </div>
 
-  <!-- Recent Data -->
   <div class="section-card">
     <div class="section-header">
       <h2>Recent Data</h2>
@@ -471,7 +527,6 @@
 
     <div class="table-wrap">
 
-      <!-- Beach Zone -->
       <div id="tab-beach" class="tab-panel active">
         <table>
           <thead>
@@ -511,7 +566,6 @@
         </table>
       </div>
 
-      <!-- Trash Bin -->
       <div id="tab-bin" class="tab-panel">
         <table>
           <thead>
@@ -551,7 +605,6 @@
         </table>
       </div>
 
-      <!-- Waste Type -->
       <div id="tab-waste" class="tab-panel">
         <table>
           <thead>
@@ -597,7 +650,6 @@
         </table>
       </div>
 
-      <!-- Collector -->
       <div id="tab-collector" class="tab-panel">
         <table>
           <thead>
@@ -659,28 +711,20 @@
     document.getElementById('tab-' + tabId).classList.add('active');
   }
 
-  // TAMBAHKAN FUNGSI BARU INI
   function lihatSemua(tabId, sidebarIndex) {
-    // 1. Ganti tab aktif di tabel Recent Data
     const targetBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
     if (targetBtn) {
       switchTab(targetBtn, tabId);
     }
     
-    // 2. Ganti menu aktif di Sidebar kiri
     const sidebarMenus = document.querySelectorAll('nav a');
     if (sidebarMenus[sidebarIndex]) {
       setTab(sidebarMenus[sidebarIndex]);
     }
 
-    // 3. Otomatis gulung layar ke bagian tabel agar langsung terlihat (Opsional)
     document.querySelector('.section-card').scrollIntoView({ behavior: 'smooth' });
   }
-  /* ====================================================================
-     KODE SIMULASI OTOMATIS (REAL-TIME DEMO)
-     ==================================================================== */
-  
-  // Daftar kemungkinan status bak sampah
+
   const daftarStatus = [
     { teks: 'Penuh', kelas: 'status-full' },
     { teks: 'Setengah', kelas: 'status-mid' },
@@ -688,32 +732,40 @@
   ];
 
   function mulaiSimulasiBakSampah() {
-    // Ambil semua baris data di dalam tabel Trash Bin
     const barisTabelBin = document.querySelectorAll('#tab-bin tbody tr');
 
     barisTabelBin.forEach((baris) => {
-      // Pilih status acak dari daftarStatus
       const statusAcak = daftarStatus[Math.floor(Math.random() * daftarStatus.length)];
-      
-      // Cari kolom status (kolom ke-4 di tabel Trash Bin)
       const kolomStatus = baris.querySelector('td:nth-child(4)');
-      
       if (kolomStatus) {
-        // Update isi komponen badgenya secara otomatis
         kolomStatus.innerHTML = `<span class="status-badge ${statusAcak.kelas}">${statusAcak.teks}</span>`;
       }
     });
 
-    // Opsional: Buat total trash bin di kartu statistik ikut berubah sedikit seolah ada data baru masuk
-    const statTrashBin = document.querySelectorAll('.stat-value')[1]; // Kartu nomor 2 (Trash Bin)
+    const statTrashBin = document.querySelectorAll('.stat-value')[1]; 
     if (statTrashBin) {
-      // Mengubah angka total bin secara acak antara range 4 sampai 8
       statTrashBin.innerText = Math.floor(Math.random() * 5) + 4;
     }
   }
 
-  // Jalankan fungsi simulasi ini otomatis setiap 5000 milidetik (5 detik)
   setInterval(mulaiSimulasiBakSampah, 5000);
+  // Mengambil email yang diketik dari halaman login tadi
+const emailTerlogin = localStorage.getItem('userEmail');
+
+if (emailTerlogin) {
+  // Cari komponen teks email di sidebar footer, lalu ganti isinya
+  const userEmailElement = document.querySelector('.user-email');
+  if (userEmailElement) {
+    userEmailElement.innerText = emailTerlogin;
+  }
+  
+  // Opsional: Mengubah teks nama admin mengambil kata depan sebelum tanda @
+  const userPrivilegeElement = document.querySelector('.user-name');
+  if (userPrivilegeElement) {
+    const namaDepan = emailTerlogin.split('@')[0];
+    userPrivilegeElement.innerText = "Admin " + namaDepan;
+  }
+}
 </script>
 </body>
 </html>

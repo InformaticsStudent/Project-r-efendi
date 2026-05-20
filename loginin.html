@@ -227,25 +227,29 @@
 
   <script>
     function handleManualLogin(event) {
-      event.preventDefault(); // Menahan reload halaman otomatis saat form submit
-      
-      const emailInput = document.getElementById('email').value;
-      const passwordInput = document.getElementById('password').value;
-      const errorMsg = document.getElementById('error-message');
+  event.preventDefault(); // Menahan reload halaman otomatis saat form submit
+  
+  const emailInput = document.getElementById('email').value;
+  const passwordInput = document.getElementById('password').value;
+  const errorMsg = document.getElementById('error-message');
 
-      // Akun kustom untuk kebutuhan demo
-      const adminEmail = "riki38187@gmail.com";
-      const adminPassword = "123"; 
+  // Sekarang password-nya saja yang dikunci, email-nya bebas ketik apa saja!
+  const adminPassword = "123"; 
 
-      if (emailInput === adminEmail && passwordInput === adminPassword) {
-        errorMsg.style.display = 'none';
-        // Dilempar kembali ke file dashboard utama kamu
-        window.location.href = 'project-dashboard.html'; 
-      } else {
-        errorMsg.style.display = 'block';
-        document.getElementById('password').value = ''; // Reset form password jika salah
-      }
-    }
+  if (passwordInput === adminPassword) {
+    errorMsg.style.display = 'none';
+    
+    // Opsional: Menyimpan nama email yang diketik ke localStorage 
+    // agar nama di dashboard bisa berubah sesuai email yang login (Biar makin keren!)
+    localStorage.setItem('userEmail', emailInput);
+    
+    window.location.href = 'project-dashboard.html'; 
+  } else {
+    errorMsg.style.top = 'block';
+    errorMsg.style.display = 'block';
+    document.getElementById('password').value = ''; 
+  }
+}
   </script>
 
 </body>
