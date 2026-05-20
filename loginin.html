@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMS PRO - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f1b2d 0%, #162a45 100%);
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #1a73e8;
+      --accent-hover: #155cb8;
+      --text-primary: #ffffff;
+      --text-secondary: #a8bfd4;
+      --font-main: 'DM Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Dekorasi Lingkaran Glow di Background */
+    .glow-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26, 115, 232, 0.15) 0%, rgba(26, 115, 232, 0) 70%);
+      filter: blur(40px);
+      z-index: 1;
+    }
+    .circle-1 { width: 400px; height: 400px; top: -10%; left: -10%; }
+    .circle-2 { width: 500px; height: 500px; bottom: -15%; right: -10%; }
+
+    /* Card Login Glassmorphism */
+    .login-container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 420px;
+      padding: 40px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    /* Header Logo */
+    .login-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 54px;
+      background: var(--accent);
+      border-radius: 14px;
+      font-size: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(26, 115, 232, 0.4);
+    }
+
+    .login-header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .login-header p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    /* Pesan Error */
+    .error-box {
+      color: #ff4d4d;
+      font-size: 13px;
+      margin-bottom: 20px;
+      display: none;
+      text-align: left;
+      background: rgba(255, 77, 77, 0.1);
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 77, 77, 0.2);
+    }
+
+    /* Form Styles */
+    .form-group {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      letter-spacing: 0.8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper span {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: #7a95ae;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 16px 14px 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: var(--font-main);
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.25);
+    }
+
+    /* Button Login */
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      border: none;
+      border-radius: 12px;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font-main);
+      margin-top: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-login:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
+    }
+
+    .btn-login:active {
+      transform: translateY(1px);
+    }
+
+    /* Footer Credits */
+    .login-footer {
+      margin-top: 32px;
+      font-size: 12px;
+      color: #627d98;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-circle circle-1"></div>
+  <div class="glow-circle circle-2"></div>
+
+  <div class="login-container">
+    <div class="login-header">
+      <div class="login-logo">🗑️</div>
+      <h1>BMS PRO</h1>
+      <p>Beach Management System Dashboard</p>
+    </div>
+
+    <div id="error-message" class="error-box">
+      ⚠️ Email atau password salah! Silakan coba lagi.
+    </div>
+
+    <form onsubmit="handleManualLogin(event)">
+      <div class="form-group">
+        <label for="email">EMAIL ADDRESS</label>
+        <div class="input-wrapper">
+          <span>📧</span>
+          <input type="email" id="email" class="form-control" placeholder="Masukkan email admin" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">PASSWORD</label>
+        <div class="input-wrapper">
+          <span>🔒</span>
+          <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login">Sign In</button>
+    </form>
+
+    <div class="login-footer">
+      <p>BMS PRO &copy; 2026 | Muhamad Riki Efendi</p>
+    </div>
+  </div>
+
+  <script>
+    function handleManualLogin(event) {
+      event.preventDefault(); // Menahan reload halaman otomatis saat form submit
+      
+      const emailInput = document.getElementById('email').value;
+      const passwordInput = document.getElementById('password').value;
+      const errorMsg = document.getElementById('error-message');
+
+      // Akun kustom untuk kebutuhan demo
+      const adminEmail = "riki38187@gmail.com";
+      const adminPassword = "123"; 
+
+      if (emailInput === adminEmail && passwordInput === adminPassword) {
+        errorMsg.style.display = 'none';
+        // Dilempar kembali ke file dashboard utama kamu
+        window.location.href = 'project-dashboard.html'; 
+      } else {
+        errorMsg.style.display = 'block';
+        document.getElementById('password').value = ''; // Reset form password jika salah
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BMS PRO – Muhamad Riki Efendi</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --sidebar-bg: #0f1b2d;
+    --sidebar-text: #a8bfd4;
+    --sidebar-active: #1a73e8;
+    --sidebar-active-bg: #1a73e8;
+    --main-bg: #f0f4f8;
+    --card-bg: #ffffff;
+    --accent: #1a73e8;
+    --accent2: #0ea5e9;
+    --text-primary: #1a2535;
+    --text-secondary: #5a7184;
+    --border: #e2eaf2;
+    --tag-wh: #e8f0fe;
+    --tag-wh-text: #1a73e8;
+    --shadow: 0 2px 12px rgba(30,60,90,0.08);
+    --font-main: 'DM Sans', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-main);
+    background: var(--main-bg);
+    color: var(--text-primary);
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ── SIDEBAR ── */
+  aside {
+    width: 260px;
+    min-height: 100vh;
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 28px 24px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+
+  .sidebar-logo span {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+
+  nav {
+    flex: 1;
+    padding: 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--sidebar-text);
+    font-size: 14.5px;
+    font-weight: 500;
+    transition: all 0.18s;
+    cursor: pointer;
+  }
+
+  nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+  nav a.active {
+    background: var(--sidebar-active-bg);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(26,115,232,0.35);
+  }
+
+  nav a .nav-icon { font-size: 17px; width: 22px; text-align: center; }
+
+  .sidebar-footer {
+    padding: 16px 20px 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .user-card {
+    background: rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+
+  .user-label {
+    font-size: 11px;
+    color: #7a95ae;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
+  }
+
+  .user-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+
+  .user-email { font-size: 12px; color: #7a95ae; }
+
+  .logout-btn {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    color: #a0b8cc;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.18s;
+    font-family: var(--font-main);
+    width: 100%;
+  }
+
+  .logout-btn:hover { background: rgba(255,60,60,0.15); border-color: rgba(255,80,80,0.3); color: #ff7070; }
+
+  /* ── MAIN ── */
+  main {
+    flex: 1;
+    padding: 36px 40px;
+    overflow-y: auto;
+  }
+
+  .page-header { margin-bottom: 28px; }
+
+  .page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .page-header p {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .page-header p span { font-size: 16px; margin-left: 4px; }
+
+  /* ── STAT CARDS ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .stat-card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid var(--border);
+    transition: transform 0.18s, box-shadow 0.18s;
+  }
+
+  .stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(30,60,90,0.12); }
+
+  .stat-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--tag-wh);
+    color: var(--tag-wh-text);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    width: fit-content;
+    font-family: var(--font-mono);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    letter-spacing: 0.2px;
+  }
+
+  .stat-value {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+    font-family: var(--font-mono);
+  }
+
+  .stat-link {
+    font-size: 12.5px;
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .stat-link:hover { text-decoration: underline; }
+
+  /* ── RECENT DATA TABLE ── */
+  .section-card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .section-header {
+    padding: 22px 28px 0;
+  }
+
+  .section-header h2 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+  }
+
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .tab-btn {
+    padding: 10px 18px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    font-family: var(--font-main);
+    transition: color 0.15s;
+  }
+
+  .tab-btn:hover { color: var(--accent); }
+
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* Table */
+  .table-wrap { padding: 0 28px 24px; overflow-x: auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 6px;
+  }
+
+  thead tr {
+    border-bottom: 1.5px solid var(--border);
+  }
+
+  thead th {
+    text-align: left;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    padding: 14px 12px 12px;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #f0f4f8;
+    transition: background 0.12s;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #f7faff; }
+
+  tbody td {
+    padding: 14px 12px;
+    font-size: 13.5px;
+    color: var(--text-primary);
+  }
+
+  .row-id {
+    color: var(--accent);
+    font-weight: 700;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+
+  .status-full { background: #fce8e8; color: #d93025; }
+  .status-ok { background: #e6f4ea; color: #1e8e3e; }
+  .status-mid { background: #fff3e0; color: #e37400; }
+
+  /* Footer */
+  .dash-footer {
+    padding: 18px 28px 20px;
+    border-top: 1px solid var(--border);
+    background: #f7faff;
+  }
+
+  .dash-footer p:first-child {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+  }
+
+  .dash-footer p:last-child {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  /* Tab content panels */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Top bar wave accent */
+  .wave-accent {
+    height: 3px;
+    background: linear-gradient(90deg, #1a73e8, #0ea5e9, #06b6d4, #1a73e8);
+    background-size: 200% 100%;
+    animation: waveFlow 3s linear infinite;
+  }
+
+  @keyframes waveFlow {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    main { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside>
+  <div class="sidebar-logo">
+    <div class="logo-icon">🗑️</div>
+    <span>BMS PRO</span>
+  </div>
+
+  <nav>
+    <a class="active" onclick="setTab(this)">
+      <span class="nav-icon">🏠</span> Dashboard
+    </a>
+    <a onclick="setTab(this)">
+      <span class="nav-icon">🏖️</span> Beach Zone
+    </a>
+    <a onclick="setTab(this)">
+      <span class="nav-icon">🗑️</span> Trash Bin
+    </a>
+    <a onclick="setTab(this)">
+      <span class="nav-icon">♻️</span> Waste Type
+    </a>
+    <a onclick="setTab(this)">
+      <span class="nav-icon">🚛</span> Collector Management
+    </a>
+    <a onclick="setTab(this)">
+      <span class="nav-icon">👥</span> User Management
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="user-label">Logged in as</div>
+      <div class="user-name">Admin BMS</div>
+      <div class="user-email">riki38187@gmail.com</div>
+    </div>
+    <button class="logout-btn" onclick="window.location.href='loginin.html'">Logout</button>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<main>
+  <div class="wave-accent" style="margin: -36px -40px 32px; width: calc(100% + 80px);"></div>
+
+  <div class="page-header">
+    <h1>Dashboard</h1>
+    <p>Welcome back, Admin BMS <span>🌊</span></p>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div>
+        <div class="stat-tag">🏖️ BZ</div>
+        <div class="stat-label" style="margin-top:8px">Total Beach Zone</div>
+      </div>
+      <div class="stat-value">4</div>
+      <a class="stat-link" onclick="lihatSemua('beach', 1)">Lihat semua</a>
+    </div>
+    <div class="stat-card">
+      <div>
+        <div class="stat-tag">🗑️ BIN</div>
+        <div class="stat-label" style="margin-top:8px">Total Trash Bin</div>
+      </div>
+      <div class="stat-value">4</div>
+      <a class="stat-link" onclick="lihatSemua('bin', 2)">Lihat semua</a>
+    </div>
+    <div class="stat-card">
+      <div>
+        <div class="stat-tag">♻️ WST</div>
+        <div class="stat-label" style="margin-top:8px">Total Waste Type</div>
+      </div>
+      <div class="stat-value">5</div>
+      <a class="stat-link" onclick="lihatSemua('waste', 3)">Lihat semua</a>
+    </div>
+  </div>
+
+  <!-- Recent Data -->
+  <div class="section-card">
+    <div class="section-header">
+      <h2>Recent Data</h2>
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="beach" onclick="switchTab(this,'beach')">Beach Zone</button>
+        <button class="tab-btn" data-tab="bin" onclick="switchTab(this,'bin')">Trash Bin</button>
+        <button class="tab-btn" data-tab="waste" onclick="switchTab(this,'waste')">Waste Type</button>
+        <button class="tab-btn" data-tab="collector" onclick="switchTab(this,'collector')">Collector</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+
+      <!-- Beach Zone -->
+      <div id="tab-beach" class="tab-panel active">
+        <table>
+          <thead>
+            <tr>
+              <th>BZ Number</th>
+              <th>Beach Zone Name</th>
+              <th>Location</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-id">BZ_04</td>
+              <td>Pantai Klayar</td>
+              <td>Pacitan, Jawa Timur</td>
+              <td>Zona selatan area utama</td>
+            </tr>
+            <tr>
+              <td class="row-id">BZ_03</td>
+              <td>Pantai Pangasan</td>
+              <td>Pacitan, Jawa Timur</td>
+              <td>Zona timur dekat warung</td>
+            </tr>
+            <tr>
+              <td class="row-id">BZ_02</td>
+              <td>Pantai Parangtritis Tengah</td>
+              <td>Bantul, Yogyakarta</td>
+              <td>Zona tengah dekat warung</td>
+            </tr>
+            <tr>
+              <td class="row-id">BZ_01</td>
+              <td>Pantai Indrayanti Utama</td>
+              <td>Gunungkidul, Yogyakarta</td>
+              <td>Zona utama pintu masuk</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Trash Bin -->
+      <div id="tab-bin" class="tab-panel">
+        <table>
+          <thead>
+            <tr>
+              <th>BIN Number</th>
+              <th>Bin Type</th>
+              <th>Beach Zone</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-id">BIN_04</td>
+              <td>Organik & Anorganik</td>
+              <td>Pantai Klayar</td>
+              <td><span class="status-badge status-full">Penuh</span></td>
+            </tr>
+            <tr>
+              <td class="row-id">BIN_03</td>
+              <td>Sampah B3</td>
+              <td>Pantai Pangasan</td>
+              <td><span class="status-badge status-ok">Tersedia</span></td>
+            </tr>
+            <tr>
+              <td class="row-id">BIN_02</td>
+              <td>Plastik & Kertas</td>
+              <td>Pantai Parangtritis Tengah</td>
+              <td><span class="status-badge status-mid">Setengah</span></td>
+            </tr>
+            <tr>
+              <td class="row-id">BIN_01</td>
+              <td>Organik</td>
+              <td>Pantai Indrayanti Utama</td>
+              <td><span class="status-badge status-ok">Tersedia</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Waste Type -->
+      <div id="tab-waste" class="tab-panel">
+        <table>
+          <thead>
+            <tr>
+              <th>WST Number</th>
+              <th>Waste Type Name</th>
+              <th>Category</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-id">WST_05</td>
+              <td>Sampah B3</td>
+              <td>Berbahaya</td>
+              <td>Baterai, kimia, dll</td>
+            </tr>
+            <tr>
+              <td class="row-id">WST_04</td>
+              <td>Plastik</td>
+              <td>Anorganik</td>
+              <td>Botol, kantong plastik</td>
+            </tr>
+            <tr>
+              <td class="row-id">WST_03</td>
+              <td>Kertas</td>
+              <td>Anorganik</td>
+              <td>Kardus, koran, tisu</td>
+            </tr>
+            <tr>
+              <td class="row-id">WST_02</td>
+              <td>Sisa Makanan</td>
+              <td>Organik</td>
+              <td>Makanan basi, kulit buah</td>
+            </tr>
+            <tr>
+              <td class="row-id">WST_01</td>
+              <td>Rumput Laut</td>
+              <td>Organik</td>
+              <td>Material alami pantai</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Collector -->
+      <div id="tab-collector" class="tab-panel">
+        <table>
+          <thead>
+            <tr>
+              <th>COL Number</th>
+              <th>Collector Name</th>
+              <th>Assigned Zone</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-id">COL_04</td>
+              <td>Budi Santoso</td>
+              <td>Pantai Klayar</td>
+              <td>Shift pagi 06.00 – 12.00</td>
+            </tr>
+            <tr>
+              <td class="row-id">COL_03</td>
+              <td>Siti Rahayu</td>
+              <td>Pantai Pangasan</td>
+              <td>Shift sore 12.00 – 18.00</td>
+            </tr>
+            <tr>
+              <td class="row-id">COL_02</td>
+              <td>Ahmad Fauzi</td>
+              <td>Pantai Parangtritis Tengah</td>
+              <td>Shift malam 18.00 – 00.00</td>
+            </tr>
+            <tr>
+              <td class="row-id">COL_01</td>
+              <td>Dewi Kusuma</td>
+              <td>Pantai Indrayanti Utama</td>
+              <td>Koordinator lapangan</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <div class="dash-footer">
+      <p>BMS PRO | Muhamad Riki Efendi</p>
+      <p>Sistem manajemen tempat sampah untuk pengelolaan sampah di area pantai secara efisien.</p>
+    </div>
+  </div>
+</main>
+
+<script>
+  function setTab(el) {
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function switchTab(btn, tabId) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tabId).classList.add('active');
+  }
+
+  // TAMBAHKAN FUNGSI BARU INI
+  function lihatSemua(tabId, sidebarIndex) {
+    // 1. Ganti tab aktif di tabel Recent Data
+    const targetBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+    if (targetBtn) {
+      switchTab(targetBtn, tabId);
+    }
+    
+    // 2. Ganti menu aktif di Sidebar kiri
+    const sidebarMenus = document.querySelectorAll('nav a');
+    if (sidebarMenus[sidebarIndex]) {
+      setTab(sidebarMenus[sidebarIndex]);
+    }
+
+    // 3. Otomatis gulung layar ke bagian tabel agar langsung terlihat (Opsional)
+    document.querySelector('.section-card').scrollIntoView({ behavior: 'smooth' });
+  }
+  /* ====================================================================
+     KODE SIMULASI OTOMATIS (REAL-TIME DEMO)
+     ==================================================================== */
+  
+  // Daftar kemungkinan status bak sampah
+  const daftarStatus = [
+    { teks: 'Penuh', kelas: 'status-full' },
+    { teks: 'Setengah', kelas: 'status-mid' },
+    { teks: 'Tersedia', kelas: 'status-ok' }
+  ];
+
+  function mulaiSimulasiBakSampah() {
+    // Ambil semua baris data di dalam tabel Trash Bin
+    const barisTabelBin = document.querySelectorAll('#tab-bin tbody tr');
+
+    barisTabelBin.forEach((baris) => {
+      // Pilih status acak dari daftarStatus
+      const statusAcak = daftarStatus[Math.floor(Math.random() * daftarStatus.length)];
+      
+      // Cari kolom status (kolom ke-4 di tabel Trash Bin)
+      const kolomStatus = baris.querySelector('td:nth-child(4)');
+      
+      if (kolomStatus) {
+        // Update isi komponen badgenya secara otomatis
+        kolomStatus.innerHTML = `<span class="status-badge ${statusAcak.kelas}">${statusAcak.teks}</span>`;
+      }
+    });
+
+    // Opsional: Buat total trash bin di kartu statistik ikut berubah sedikit seolah ada data baru masuk
+    const statTrashBin = document.querySelectorAll('.stat-value')[1]; // Kartu nomor 2 (Trash Bin)
+    if (statTrashBin) {
+      // Mengubah angka total bin secara acak antara range 4 sampai 8
+      statTrashBin.innerText = Math.floor(Math.random() * 5) + 4;
+    }
+  }
+
+  // Jalankan fungsi simulasi ini otomatis setiap 5000 milidetik (5 detik)
+  setInterval(mulaiSimulasiBakSampah, 5000);
+</script>
+</body>
+</html>
